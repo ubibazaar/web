@@ -1,0 +1,19 @@
+@(app: org.ubicollab.ubibazaar.core.App, similarApps: List[org.ubicollab.ubibazaar.core.App])
+
+@ubibazaar(app.getName) {
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron" id="welcome-message" class="collapse in">
+      <div class="container">
+        <h1>@app.getName <small>for <a href="@app.getPlatform.getId">@app.getPlatform.getName</a></small></h1>
+        <h2>developed by <a href="@app.getPlatform.getId">@app.getAuthor.getName</a></h2>
+        <p>@app.getDescription()</p>
+        <p><a class="btn btn-primary" href="#" role="button">Install</a></p>
+      </div>
+    </div>
+
+    <div class="container">
+    	@app_list("Similar apps", similarApps)
+    </div>
+
+}

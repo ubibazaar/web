@@ -1,0 +1,22 @@
+@(name: String, appList: List[org.ubicollab.ubibazaar.core.App])
+
+
+<h1>@name</h1>
+<hr />
+<!-- Example row of columns -->
+<div class="row">
+
+	@for(app <- appList) {
+	<div class="col-md-4">
+		<h2>@app.getName() <small>for <a href="@app.getPlatform.getId">@app.getPlatform.getName</a></small></h2>
+    	<h6>developed by <a href="@app.getPlatform.getId">@app.getAuthor.getName</a></h6>
+		<p>@app.getDescription()</p>
+          
+		<p>
+			<a class="btn btn-primary" href="#" role="button">Install</a>
+			<a class="btn btn-default" role="button" href="@routes.Apps.detail(app.getId)">View details &raquo;</a>
+		</p>
+	</div>
+	}
+		
+</div>
