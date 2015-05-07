@@ -9,7 +9,7 @@
 	@for(app <- appList) {
 	<div class="col-md-4">
 		<h2>@app.getName() <small>for <a href="@app.getPlatform.getId">@app.getPlatform.getName</a></small></h2>
-    	<h6>developed by <a href="@app.getPlatform.getId">@app.getAuthor.getName</a></h6>
+    	<h6>developed by <a href="@app.getAuthor.getId">@app.getAuthor.getName</a></h6>
 		<p>@app.getDescription()</p>
           
 		<p>

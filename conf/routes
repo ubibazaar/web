@@ -9,5 +9,16 @@
 GET     /apps                       controllers.Apps.index()
 GET     /apps/:id                   controllers.Apps.detail(id)
 
+# users ----
+GET     /register                  	controllers.Users.registrationForm()
+POST    /register                  	controllers.Users.register()
+
+GET     /login                  	controllers.Users.loginForm()
+POST    /login                  	controllers.Users.login()
+
+GET     /logout                  	controllers.Users.logout()
+
+GET    	/users/:id                	controllers.Users.profile(id)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

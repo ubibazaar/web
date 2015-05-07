@@ -26,5 +26,4 @@ public class AppService extends UbibazaarService<App> {
     return new TypeToken<List<App>>() {}.getType();
   }
 
-
 }

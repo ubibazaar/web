@@ -1,0 +1,23 @@
+@import b3.vertical.fieldConstructor  // Declares a vertical field constructor as default
+@()
+
+@ubibazaar("New user registration") {
+
+	<div class="jumbotron" id="welcome-message" class="collapse in">
+		<div class="container">
+			<h1>Log in</h1>
+			<p>If you are registered, just fill in your credentials below to log in. 
+			If you have not registered yet, please <a href="/register">register</a> first! You can always browse the app store without logging in, but you will not be able to 
+			register your devices and install the apps directly.</p>
+		</div>
+	</div>
+	
+	<div class="container">
+		@b3.form(routes.Users.login) {
+			@b3.email( Users.userForm("username"), '_label -> "Email", 'placeholder -> "example@mail.com" )
+			@b3.password( Users.userForm("password"), '_label -> "Password", 'placeholder -> "Password" )
+			@b3.submit('class -> "btn btn-default"){ Log in }
+		}
+	</div>
+
+}
