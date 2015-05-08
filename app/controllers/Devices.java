@@ -1,22 +1,11 @@
 package controllers;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-import org.ubicollab.ubibazaar.core.App;
-import org.ubicollab.ubibazaar.core.Category;
 import org.ubicollab.ubibazaar.core.Device;
-import org.ubicollab.ubibazaar.core.Platform;
-import org.ubicollab.ubibazaar.core.User;
 
-import play.mvc.Http.Session;
 import play.mvc.Result;
 import services.UbibazaarService;
-
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Sets;
 
 import views.html.*;
 
