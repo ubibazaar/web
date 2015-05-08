@@ -68,11 +68,4 @@ public class Apps extends UbibazaarController {
     return ok(app_store_filtered.render(filtered, platform, user, category));
   }
   
-  public static void main(String[] args) {
-    String s = "{\"id\": \"f47754d0c689443ebc1bbf0cd2c8bd86\",\"name\": \"energy-monitoring\",\"parent\": {\"id\": \"86b90e8171ce49c8a9a487b31c818a7a\",\"name\": \"smart-home\",\"parent\": {\"id\": \"33a9a87811a04743966cddb5e82e1fb7\",\"name\": \"internet-of-things\",\"parent\": {\"id\": \"4220f24cd59f4ef6b2b07f74a1e264bd\",\"name\": \"root category\"}}}}";
-    Category cat = new Gson().fromJson(s, Category.class);
-    
-    System.out.println(cat.getName());
-  }
-
 }

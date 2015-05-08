@@ -3,32 +3,32 @@ package services;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import org.ubicollab.ubibazaar.core.Category;
+import org.ubicollab.ubibazaar.core.Device;
 
 import com.google.common.reflect.TypeToken;
 
-public class CategoryService extends UbibazaarService<Category> {
+public class DeviceService extends UbibazaarService<Device> {
 
   @Override
   public String getResourceName() {
-    return "categories";
+    return "devices";
   }
 
   @SuppressWarnings("serial")
   @Override
   public Type getType() {
-    return new TypeToken<Category>() {}.getType();
+    return new TypeToken<Device>() {}.getType();
   }
 
   @SuppressWarnings("serial")
   @Override
   public Type getListType() {
-    return new TypeToken<List<Category>>() {}.getType();
+    return new TypeToken<List<Device>>() {}.getType();
   }
   
   @Override
   public Boolean authNeeded() {
-    return false;
+    return true;
   }
 
 }

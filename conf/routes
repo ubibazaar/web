@@ -10,6 +10,11 @@ GET     /apps                       controllers.Apps.index()
 GET     /apps/query                 controllers.Apps.query()
 GET     /apps/:id                   controllers.Apps.detail(id)
 
+# devices
+GET     /devices                    controllers.Devices.overview()
+#GET     /devices/query              controllers.Devices.query()
+GET     /devices/:id                controllers.Devices.detail(id)
+
 # users ----
 GET     /register                  	controllers.Users.registrationForm()
 POST    /register                  	controllers.Users.register()

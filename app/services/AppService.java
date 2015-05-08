@@ -25,5 +25,10 @@ public class AppService extends UbibazaarService<App> {
   public Type getListType() {
     return new TypeToken<List<App>>() {}.getType();
   }
+  
+  @Override
+  public Boolean authNeeded() {
+    return false;
+  }
 
 }

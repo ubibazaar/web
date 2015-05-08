@@ -1,0 +1,18 @@
+@(name: String, deviceList: Collection[org.ubicollab.ubibazaar.core.Device])
+
+
+<h1>@name</h1>
+<hr />
+<!-- Example row of columns -->
+<div class="row">
+
+	@for(device <- deviceList) {
+	<div class="col-md-4" class="thumbnail">
+		<h2>@device.getName() <small>@device.getPlatform.getName</small></h2>
+		<p>
+			<a class="btn btn-default" role="button" href="@routes.Devices.detail(device.getId)">View details &raquo;</a>
+		</p>
+	</div>
+	}
+		
+</div>

@@ -2,7 +2,9 @@ package services;
 
 import java.lang.reflect.Type;
 import java.util.List;
+
 import org.ubicollab.ubibazaar.core.Installation;
+
 import com.google.common.reflect.TypeToken;
 
 public class InstallationService extends UbibazaarService<Installation> {
@@ -22,6 +24,11 @@ public class InstallationService extends UbibazaarService<Installation> {
   @Override
   public Type getListType() {
     return new TypeToken<List<Installation>>() {}.getType();
+  }
+  
+  @Override
+  public Boolean authNeeded() {
+    return true;
   }
   
 }

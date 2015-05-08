@@ -25,5 +25,10 @@ public class PlatformService extends UbibazaarService<Platform> {
   public Type getListType() {
     return new TypeToken<List<Platform>>() {}.getType();
   }
+  
+  @Override
+  public Boolean authNeeded() {
+    return false;
+  }
 
 }

@@ -57,5 +57,10 @@ public class UserService extends UbibazaarService<User> {
 
     return response.get(1, TimeUnit.MINUTES).equals(200);
   }
+
+  @Override
+  public Boolean authNeeded() {
+    return false;
+  }
   
 }
