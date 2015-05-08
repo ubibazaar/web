@@ -1,8 +1,6 @@
 package controllers;
 
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,18 +8,12 @@ import org.ubicollab.ubibazaar.core.App;
 import org.ubicollab.ubibazaar.core.Installation;
 import org.ubicollab.ubibazaar.core.User;
 
-import akka.event.slf4j.Logger;
-import akka.routing.GetRoutees;
+import com.google.common.collect.ImmutableMap;
 import play.data.Form;
-import play.libs.F.Promise;
-import play.libs.ws.WS;
-import play.mvc.Controller;
 import play.mvc.Result;
-import services.AppService;
-import services.InstallationService;
-import services.UserService;
+import services.UbibazaarService;
 
-public class Users extends Controller {
+public class Users extends UbibazaarController {
 
   public static Form<User> userForm = Form.form(User.class);
 
@@ -38,7 +30,7 @@ public class Users extends Controller {
     User user = userForm.bindFromRequest().get();
   
     // create user
-    String createdUserResourceUrl = new UserService().create(user);
+    String createdUserResourceUrl = UbibazaarService.userService.create(user);
   
     // find created user id
     Pattern pattern = Pattern.compile("([0-91-f]{32})");
@@ -66,10 +58,10 @@ public class Users extends Controller {
     try {
       // find installations
       // this requires authentication, so we know if the credentials are ok or not
-      List<Installation> installations = new InstallationService().getForUser(entered);
+      List<Installation> installations = UbibazaarService.installationService.getForUser(entered);
 
       // look up this user to get id and name
-      User lookedUp = new UserService().getByUsername(entered.getUsername());
+      User lookedUp = UbibazaarService.userService.getByUsername(entered.getUsername());
 
       // store credentials in session
       session("userid", lookedUp.getId());
@@ -96,11 +88,10 @@ public class Users extends Controller {
 
   public static Result profile(String id) {
     // find user
-    User user = new UserService().get(id);
+    User user = UbibazaarService.userService.get(id);
 
     // find apps by user
-    // FIXME filter apps by user
-    List<App> apps = new AppService().getList();
+    List<App> apps = UbibazaarService.appService.query(ImmutableMap.of("user", id));
 
     return ok(views.html.user_profile.render(user, apps));
   }

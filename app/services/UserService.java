@@ -31,10 +31,11 @@ public class UserService extends UbibazaarService<User> {
     return new TypeToken<List<User>>() {}.getType();
   }
   
+  // ugly hack, but we cannot use the generic query method in UbibazaarService, as the API only 
+  // returns one User when searching by username.. it knows there only can be one user like this 
   public User getByUsername(String username) {
     String url = getResourceUrl() + "query";
 
-    @SuppressWarnings("unchecked")
     Promise<User> response = WS.url(url)
         .setQueryParameter("username", username)
         .get()

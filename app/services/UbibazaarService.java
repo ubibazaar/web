@@ -15,8 +15,14 @@ import com.google.common.collect.Iterables;
 import com.google.gson.Gson;
 
 public abstract class UbibazaarService<Entity> {
+  
+  // facade
+  public static AppService appService = new AppService();
+  public static UserService userService = new UserService();
+  public static PlatformService platformService = new PlatformService();
+  public static InstallationService installationService = new InstallationService();
 
-  public static final String API_URL = "http://ubibazaar.io:8080/ubibazaar-api";
+  private static final String API_URL = "http://ubibazaar.io:8080/ubibazaar-api";
 
   protected String getResourceUrl() {
     return API_URL + "/resources/" + getResourceName() + "/";
