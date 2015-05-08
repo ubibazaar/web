@@ -1,11 +1,11 @@
 package controllers;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.ubicollab.ubibazaar.core.App;
-import org.ubicollab.ubibazaar.core.Installation;
 import org.ubicollab.ubibazaar.core.User;
 
 import com.google.common.collect.ImmutableMap;
@@ -17,6 +17,9 @@ import views.html.*;
 
 public class Users extends UbibazaarController {
 
+  private static final String SERVER_ERROR = "Server error. Please try again later.";
+  private static final String INCORRECT_CREDENTIALS = "Sorry, the credentials are not correct. Please check your username and password and try again.";
+  
   public static Form<User> userForm = Form.form(User.class);
 
   public static Result registrationForm() {
@@ -24,28 +27,28 @@ public class Users extends UbibazaarController {
   }
 
   public static Result loginForm() {
-    return ok(user_login.render());
+    return ok(user_login.render(Optional.<String>empty()));
   }
 
   public static Result register() {
     // load form user data
     User user = userForm.bindFromRequest().get();
-  
+
     // create user
     String createdUserResourceUrl = UbibazaarService.userService.create(user);
-  
+
     // find created user id
     Pattern pattern = Pattern.compile("([0-91-f]{32})");
     Matcher matcher = pattern.matcher(createdUserResourceUrl);
     if (matcher.find()) {
       String id = matcher.group(1);
-  
+
       // store credentials in session
       session("userid", id);
       session("name", user.getName());
       session("username", user.getUsername());
       session("password", user.getPassword());
-  
+
       // redirect to profile page
       return redirect("/users/" + id);
     } else {
@@ -60,23 +63,27 @@ public class Users extends UbibazaarController {
     try {
       // find installations
       // this requires authentication, so we know if the credentials are ok or not
-      List<Installation> installations = UbibazaarService.installationService.getForUser(entered);
+      boolean success = UbibazaarService.userService.acessSecured(entered);
 
-      // look up this user to get id and name
-      User lookedUp = UbibazaarService.userService.getByUsername(entered.getUsername());
+      if (success) {
+        // look up this user to get id and name
+        User lookedUp = UbibazaarService.userService.getByUsername(entered.getUsername());
 
-      // store credentials in session
-      session("userid", lookedUp.getId());
-      session("name", lookedUp.getName());
-      session("username", lookedUp.getUsername());
-      session("password", entered.getPassword());
+        // store credentials in session
+        session("userid", lookedUp.getId());
+        session("name", lookedUp.getName());
+        session("username", lookedUp.getUsername());
+        session("password", entered.getPassword());
 
-      // redirect to profile page
-      return redirect("/users/" + lookedUp.getId());
+        // redirect to profile page
+        return redirect("/users/" + lookedUp.getId());
+      } else {
+        // fail, show alert
+        return forbidden(user_login.render(Optional.of(INCORRECT_CREDENTIALS)));
+      }
     } catch (Exception e) {
       play.Logger.error(e.getMessage(), e);
-      // FIXME write more on the failed login
-      return forbidden(user_login.render());
+      return forbidden(user_login.render(Optional.of(SERVER_ERROR)));
     }
   }
 

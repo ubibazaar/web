@@ -1,5 +1,5 @@
+@(message: Optional[String])
 @import b3.vertical.fieldConstructor  // Declares a vertical field constructor as default
-@()
 
 @ubibazaar("New user registration") {
 
@@ -13,6 +13,8 @@
 	</div>
 	
 	<div class="container">
+		@if(message.isPresent) { <div class="alert alert-danger alert-dismissible fade in" role="alert"><p>@message.get</p></div> }
+		
 		@b3.form(routes.Users.login) {
 			@b3.email( Users.userForm("username"), '_label -> "Email", 'placeholder -> "example@mail.com" )
 			@b3.password( Users.userForm("password"), '_label -> "Password", 'placeholder -> "Password" )

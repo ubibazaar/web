@@ -45,4 +45,17 @@ public class UserService extends UbibazaarService<User> {
     return response.get(1, TimeUnit.MINUTES);
   }
   
+  public boolean acessSecured(User user) {
+    String url = getResourceUrl().replace(getResourceName(), "installations");
+
+    Promise<Integer> response = WS.url(url)
+        .setAuth(user.getUsername(), user.getPassword())
+        .get()
+        .map(x -> x.getStatus());
+    
+    System.out.println(response.get(1, TimeUnit.MINUTES));
+
+    return response.get(1, TimeUnit.MINUTES).equals(200);
+  }
+  
 }
