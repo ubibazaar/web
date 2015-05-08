@@ -1,8 +1,8 @@
 package controllers;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.ubicollab.ubibazaar.core.App;
 import org.ubicollab.ubibazaar.core.Category;
@@ -13,7 +13,8 @@ import play.mvc.Result;
 import services.UbibazaarService;
 import views.html.*;
 
-import com.google.common.collect.Maps;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Sets;
 
 public class Apps extends UbibazaarController {
   
@@ -27,21 +28,22 @@ public class Apps extends UbibazaarController {
     // find the app
     App app = UbibazaarService.appService.get(id);
 
-    // find similar apps
-    // FIXME filtering on author, platform and categories..
-    List<App> similarApps = UbibazaarService.appService.getList();
+    // find similar apps - same author, same platform or same category
+    List<App> sameAuthorApps = UbibazaarService.appService.query(ImmutableMap.of("user", app.getAuthor().getId()));
+    List<App> samePlatformApps = UbibazaarService.appService.query(ImmutableMap.of("user", app.getPlatform().getId()));
+    //FIXME same category apps
+    
+    Set<App> similarApps = Sets.newHashSet();
+    similarApps.addAll(samePlatformApps);
+    similarApps.addAll(sameAuthorApps);
+    similarApps.remove(app); // do not show this app as similar to itself
 
     return ok(app_detail.render(app, similarApps));
   }
 
   public static Result query() {
-    // propagate params
-    Map<String, String> params = Maps.newHashMap();
-    request().queryString().entrySet()
-      .forEach(queryParam-> params.put(queryParam.getKey(), queryParam.getValue()[0]));
-    
     // find apps according to filter
-    List<App> filtered = UbibazaarService.appService.query(params);
+    List<App> filtered = UbibazaarService.appService.query(getParams());
 
     // find entities used for filtering
     // platform
