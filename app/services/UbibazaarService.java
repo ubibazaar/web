@@ -3,10 +3,12 @@ package services;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
 import play.libs.F.Promise;
 import play.libs.ws.WS;
+import play.libs.ws.WSRequestHolder;
 import play.libs.ws.WSResponse;
 
 import com.google.common.collect.Iterables;
@@ -44,6 +46,27 @@ public abstract class UbibazaarService<Entity> {
     return response.get(1, TimeUnit.MINUTES);
   }
   
+  public List<Entity> query(Map<String, String> params) {
+    String url = getResourceUrl();
+
+    // init request
+    WSRequestHolder request = WS.url(url + "query");
+
+    // set parameters
+    for (Entry<String, String> param : params.entrySet()) {
+      request.setQueryParameter(param.getKey(), param.getValue());
+    }
+    
+    @SuppressWarnings("unchecked")
+    Promise<List<Entity>> response = request.get()
+        .map(x -> x.getBody())
+        .map(x -> (List<Entity>) new Gson().fromJson(x, getListType()));
+
+    System.out.println(url);
+
+    return response.get(1, TimeUnit.MINUTES);
+  }
+  
   public String create(Entity entity) {
     String url = getResourceUrl();
     
@@ -52,9 +75,6 @@ public abstract class UbibazaarService<Entity> {
     Promise<WSResponse> re = WS.url(url)
         .setContentType("application/json")
         .post(json);
-    
-    System.out.println(re.get(1000000).getAllHeaders());
-    System.out.println(re.get(1000000).getBody());
     
     Promise<List<String>> response = re
         .map(x -> x.getAllHeaders())

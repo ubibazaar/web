@@ -7,6 +7,7 @@
 
 # apps
 GET     /apps                       controllers.Apps.index()
+GET     /apps/query                 controllers.Apps.query()
 GET     /apps/:id                   controllers.Apps.detail(id)
 
 # users ----
