@@ -9,20 +9,22 @@ import org.ubicollab.ubibazaar.core.Installation;
 import org.ubicollab.ubibazaar.core.User;
 
 import com.google.common.collect.ImmutableMap;
+
 import play.data.Form;
 import play.mvc.Result;
 import services.UbibazaarService;
+import views.html.*;
 
 public class Users extends UbibazaarController {
 
   public static Form<User> userForm = Form.form(User.class);
 
   public static Result registrationForm() {
-    return ok(views.html.user_registration.render());
+    return ok(user_registration.render());
   }
 
   public static Result loginForm() {
-    return ok(views.html.user_login.render());
+    return ok(user_login.render());
   }
 
   public static Result register() {
@@ -74,7 +76,7 @@ public class Users extends UbibazaarController {
     } catch (Exception e) {
       play.Logger.error(e.getMessage(), e);
       // FIXME write more on the failed login
-      return forbidden(views.html.user_login.render());
+      return forbidden(user_login.render());
     }
   }
 
@@ -93,7 +95,7 @@ public class Users extends UbibazaarController {
     // find apps by user
     List<App> apps = UbibazaarService.appService.query(ImmutableMap.of("user", id));
 
-    return ok(views.html.user_profile.render(user, apps));
+    return ok(user_profile.render(user, apps));
   }
 
 }

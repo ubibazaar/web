@@ -10,6 +10,13 @@
 	<div class="col-md-4">
 		<h2>@app.getName() <small>for <a href="@routes.Apps.query()?platform=@app.getPlatform.getId">@app.getPlatform.getName</a></small></h2>
     	<h6>developed by <a href="@routes.Apps.query()?user=@app.getAuthor.getId">@app.getAuthor.getName</a></h6>
+    	@if(!app.getCategory.isEmpty()) {
+      <h6>Categories: 
+        @for(category <- app.getCategory) {
+          <a href="@routes.Apps.query()?category=@category.getId">@category.getName</a>
+        }
+      </h6>
+      }
 		<p>@app.getDescription()</p>
           
 		<p>
