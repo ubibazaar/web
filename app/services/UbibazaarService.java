@@ -77,8 +77,6 @@ public abstract class UbibazaarService<Entity> {
     if(authNeeded() && !session.isPresent()) {
       throw new NullPointerException("Auth needed, but session is not present");
     } else if(session.isPresent()) {
-      System.out.println(session.get().get("userid"));
-      System.out.println(session.get().get("password"));
       request.setAuth(session.get().get("username"), session.get().get("password"));
     } 
 
@@ -86,8 +84,6 @@ public abstract class UbibazaarService<Entity> {
     Promise<List<Entity>> response = request.get()
         .map(x -> x.getBody())
         .map(x -> (List<Entity>) new Gson().fromJson(x, getListType()));
-
-    System.out.println(url);
 
     return response.get(1, TimeUnit.MINUTES);
   }
@@ -120,8 +116,6 @@ public abstract class UbibazaarService<Entity> {
     Promise<List<Entity>> response = request.get()
         .map(x -> x.getBody())
         .map(x -> (List<Entity>) new Gson().fromJson(x, getListType()));
-
-    System.out.println(url);
 
     return response.get(1, TimeUnit.MINUTES);
   }

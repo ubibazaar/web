@@ -40,8 +40,6 @@ public class ManagerService extends UbibazaarService<Manager> {
   public boolean linkDeviceToManager(Manager manager, Device device, Session session) {
     String url = getResourceUrl().replace(getResourceName(), "pairings") + manager.getId();
     
-    System.out.println(url);
-    
     String json = new Gson().toJson(device);
     
     return WS.url(url)

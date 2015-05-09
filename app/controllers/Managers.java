@@ -26,9 +26,6 @@ public class Managers extends UbibazaarController {
       // FIXME give option to choose
       return status(404);
     } else {
-      
-      System.out.println("here 1");
-      
       // redirect to the only one
       ManagerType onlyManagerType = Iterables.getOnlyElement(managerTypes);
       return forType(onlyManagerType.getId(), deviceId);
@@ -39,10 +36,6 @@ public class Managers extends UbibazaarController {
     ManagerType managerType = UbibazaarService.managerTypeService.get(managerTypeId);
     Device device = UbibazaarService.deviceService.get(deviceId, session());
     
-    System.out.println("here 2");
-
-    // FIXME only one per user for types with cardinality all!
-
     // create manager
     Manager manager = new Manager();
     manager.setOwner(fetchUserFromSession());
@@ -52,11 +45,7 @@ public class Managers extends UbibazaarController {
     Optional<String> managerId = extractId(url);
 
     if (managerId.isPresent()) {
-      System.out.println("here 3");
       manager.setId(managerId.get());
-      
-      System.out.println(manager);
-      System.out.println(device);
       
       if(UbibazaarService.managerService.linkDeviceToManager(manager, device, session())) {
         // FIXME show instructions..

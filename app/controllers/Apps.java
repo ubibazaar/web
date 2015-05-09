@@ -29,8 +29,6 @@ public class Apps extends UbibazaarController {
     // find the app
     App app = UbibazaarService.appService.get(id);
     
-    System.out.println(app.getCategory().isEmpty());
-
     // find similar apps - same author, same platform or same category
     List<App> sameAuthorApps = UbibazaarService.appService.query(ImmutableMap.of("user", app.getAuthor().getId()));
     List<App> samePlatformApps = UbibazaarService.appService.query(ImmutableMap.of("user", app.getPlatform().getId()));

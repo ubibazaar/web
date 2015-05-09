@@ -53,8 +53,6 @@ public class UserService extends UbibazaarService<User> {
         .get()
         .map(x -> x.getStatus());
     
-    System.out.println(response.get(1, TimeUnit.MINUTES));
-
     return response.get(1, TimeUnit.MINUTES).equals(200);
   }
 
