@@ -6,8 +6,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.ubicollab.ubibazaar.core.Device;
+import org.ubicollab.ubibazaar.core.Installation;
+import org.ubicollab.ubibazaar.core.Manager;
 import org.ubicollab.ubibazaar.core.Platform;
 import org.ubicollab.ubibazaar.core.User;
+
+import com.google.common.collect.ImmutableMap;
 
 import play.data.Form;
 import play.mvc.Result;
@@ -27,10 +31,13 @@ public class Devices extends UbibazaarController {
   public static Result detail(String id) {
     // find the app
     Device device = UbibazaarService.deviceService.get(id, session());
+
+    // query for managers and installations on this device
+    ImmutableMap<String, String> deviceQuery = ImmutableMap.of("device", device.getId());
+    List<Manager> managers = UbibazaarService.managerService.query(deviceQuery, session());
+    List<Installation> installations = UbibazaarService.installationService.query(deviceQuery, session());
     
-    //FIXME load managers and installation
-    
-    return ok(device_detail.render(device));
+    return ok(device_detail.render(device, managers, installations));
   }
 
   public static Result query() {

@@ -1,4 +1,8 @@
-@(device: org.ubicollab.ubibazaar.core.Device)
+@(
+  device: org.ubicollab.ubibazaar.core.Device,
+  managers: Collection[org.ubicollab.ubibazaar.core.Manager],
+  installations: Collection[org.ubicollab.ubibazaar.core.Installation]
+)
 
 @ubibazaar(device.getName) {
 
@@ -10,7 +14,21 @@
     </div>
 
     <div class="container">
-    	FIXME managers and apps
+    <!-- managers -->
+    @if(managers.isEmpty) {
+      <div class="alert alert-warning" role="alert">
+        There are no managers installed on this device. Please <a href="@routes.Apps.index" class="alert-link">install one</a> in order to be able to install apps!
+      </div>
+    }
+      
+    <!-- installations -->
+    @if(!installations.isEmpty) {
+      @installation_list(Optional.of("Installed apps"), installations)
+    } else {
+      <div class="alert alert-info" role="alert">
+        There are no apps installed on this device. Go to the <a href="@routes.Apps.index" class="alert-link">app store</a> and install some!
+      </div>
+    }
     </div>
 
 }

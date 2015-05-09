@@ -25,6 +25,7 @@ public abstract class UbibazaarService<Entity> {
   public static InstallationService installationService = new InstallationService();
   public static CategoryService categoryService = new CategoryService();
   public static DeviceService deviceService = new DeviceService();
+  public static ManagerService managerService = new ManagerService();
 
   private static final String API_URL = "http://ubibazaar.io:8080/ubibazaar-api";
 
