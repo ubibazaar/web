@@ -3,7 +3,7 @@
 # ~~~~
 
 # Home page
-#FIXME create a home page.. or redirect
+GET     /                           controllers.Main.landing()
 
 # apps
 GET     /apps                       controllers.Apps.index()
@@ -11,7 +11,7 @@ GET     /apps/query                 controllers.Apps.query()
 GET     /apps/:id                   controllers.Apps.detail(id)
 
 # devices
-GET     /devices/register           controllers.Devices.registrationForm()
+GET     /devices/add                controllers.Devices.registrationForm()
 POST    /devices                    controllers.Devices.register()
 GET     /devices                    controllers.Devices.overview()
 GET     /devices/query              controllers.Devices.query()

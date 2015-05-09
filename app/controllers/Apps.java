@@ -22,7 +22,7 @@ public class Apps extends UbibazaarController {
   public static Result index() {
     List<App> apps = UbibazaarService.appService.getList();
 
-    return ok(app_store.render(apps));
+    return ok(app_store.render(Optional.<String>empty(), apps));
   }
 
   public static Result detail(String id) {

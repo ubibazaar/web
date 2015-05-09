@@ -1,20 +1,23 @@
-@(devices: List[org.ubicollab.ubibazaar.core.Device])
+@(
+  heading: Optional[String],
+  devices: List[org.ubicollab.ubibazaar.core.Device]
+)
 
-@ubibazaar("Device dashboard") {
+@ubibazaar("My devices") {
   
   <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron" id="welcome-message" class="collapse in">
       <div class="container">
-        <h1>Devices</h1>
-        <p>Register your devices here so you can install software to them directly from UbiBazaar!</p>
+        <h1>My devices</h1>
+        <p>Add your device so that you can install apps on it directly from UbiBazaar!</p>
         <p>
-          <a class="btn btn-primary btn-lg" href="@routes.Devices.registrationForm" role="button">Register a device</a>
+          <a class="btn btn-primary btn-lg" href="@routes.Devices.registrationForm" role="button">Add a new a device</a>
         </p>
       </div>
     </div>
 
     <div class="container">
-    	@device_list("Your devices", devices)
+    	@device_list(heading, devices)
     </div>
 
 }

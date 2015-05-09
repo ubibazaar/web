@@ -1,0 +1,21 @@
+@(apps: List[org.ubicollab.ubibazaar.core.App])
+
+@ubibazaar("App catalog") {
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron" id="welcome-message" class="collapse in">
+      <div class="container">
+        <h1>Welcome to UbiBazaar</h1>
+        <p>UbiBazaar is an app store for the Internet of Things, a place where IoT app developers can publish their apps and where users can easily find them and install them directly to their devices.</p>
+        <p>
+        	<a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a>
+        	<a href="#welcome-message" class="btn btn-lg btn-default" data-toggle="collapse">Dismiss</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="container">
+    	@app_list(Optional.of("App store"), apps)
+    </div>
+
+}

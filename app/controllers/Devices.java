@@ -21,7 +21,7 @@ public class Devices extends UbibazaarController {
   public static Result overview() {
     List<Device> devices = UbibazaarService.deviceService.getList(session());
 
-    return ok(device_overview.render(devices));
+    return ok(device_overview.render(Optional.<String>empty(), devices));
   }
 
   public static Result detail(String id) {

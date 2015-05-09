@@ -10,15 +10,16 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron" id="welcome-message" class="collapse in">
       <div class="container">
-        <h1>App search</h1>
-        @if(platform.isPresent()) {<h3>Platform: @platform.get.getName</h3>}
-        @if(author.isPresent()) {<h3>Author: @author.get.getName</h3>}
-        @if(category.isPresent()) {<h3>Category: @category.get.getName</h3>}
       </div>
     </div>
 
     <div class="container">
-    	@app_list("Results (" + apps.size + ")", apps)
+      <h1>App search</h1>
+      @if(platform.isPresent()) {<h3>Platform: @platform.get.getName</h3>}
+      @if(author.isPresent()) {<h3>Author: @author.get.getName</h3>}
+      @if(category.isPresent()) {<h3>Category: @category.get.getName</h3>}
+      
+    	@app_list(Optional.of("Results (" + apps.size + ")"), apps)
     </div>
 
 }

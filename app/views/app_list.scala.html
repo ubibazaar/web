@@ -1,8 +1,14 @@
-@(name: String, appList: Collection[org.ubicollab.ubibazaar.core.App])
+@(
+  heading: Optional[String],
+  appList: Collection[org.ubicollab.ubibazaar.core.App]
+)
 
 
-<h1>@name</h1>
-<hr />
+@if(heading.isPresent) { 
+  <h1>@heading.get</h1> 
+  <hr />
+}
+
 <!-- Example row of columns -->
 <div class="row">
 

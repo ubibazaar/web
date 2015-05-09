@@ -1,8 +1,10 @@
-@(name: String, deviceList: Collection[org.ubicollab.ubibazaar.core.Device])
+@(name: Optional[String], deviceList: Collection[org.ubicollab.ubibazaar.core.Device])
 
 
-<h1>@name</h1>
+@if(name.isPresent) { 
+<h1>@name.get</h1> 
 <hr />
+}
 <!-- Example row of columns -->
 <div class="row">
 
