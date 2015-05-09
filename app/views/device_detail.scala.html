@@ -14,11 +14,23 @@
     </div>
 
     <div class="container">
-    <!-- managers -->
+    <!-- no managers -->
     @if(managers.isEmpty) {
       <div class="alert alert-warning" role="alert">
-        There are no managers installed on this device. Please <a href="@routes.Apps.index" class="alert-link">install one</a> in order to be able to install apps!
+        There are no managers installed on this device. Please <a href="@routes.Managers.forPlatform(device.getPlatform.getId,device.getId)" class="alert-link">install one</a> in order to be able to install apps!
       </div>
+    }
+    
+    <!-- non-complete managers -->
+    @for(manager <- managers) {
+    <div class="alert alert-warning" role="alert">
+      @manager.getType.getName is not installed properly, please follow these instructions to finish installation.<br/>
+      <br/>
+      <center>
+      <strong>@manager.getInstallationInstructions</strong>
+      </center>
+      <br/>
+    </div>
     }
       
     <!-- installations -->
