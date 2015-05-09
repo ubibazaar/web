@@ -1,21 +1,35 @@
 @(app: org.ubicollab.ubibazaar.core.App, similarApps: Collection[org.ubicollab.ubibazaar.core.App])
 
+
+@crumb(category: org.ubicollab.ubibazaar.core.Category) = {
+  <li><a href="@routes.Apps.query()?category=@category.getId">@category.getName</a></li>
+  @if(category.getParent.getParent != null) { @crumb(category.getParent) }
+}
+
 @ubibazaar(app.getName) {
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron" id="welcome-message" class="collapse in">
       <div class="container">
         <h1>@app.getName <small>for <a href="@routes.Apps.query()?platform=@app.getPlatform.getId">@app.getPlatform.getName</a></small></h1>
-        <p>By <a href="@routes.Apps.query()?user=@app.getAuthor.getId">@app.getAuthor.getName</a>. 
-        @if(!app.getCategory.isEmpty()) {
-        In categories: 
-        @for(category <- app.getCategory) {
-          <a href="@routes.Apps.query()?category=@category.getId">@category.getName</a>
-        }
-        </p>
-        }
+        <div class="row">
+            <div class="col-md-6">
         <p>@app.getDescription()</p>
         <p><a class="btn btn-primary" href="#" role="button">Install</a></p>
+            </div>
+            <div class="col-md-6">
+      <p>By <a href="@routes.Apps.query()?user=@app.getAuthor.getId">@app.getAuthor.getName</a>.</p>
+      @if(!app.getCategory.isEmpty()) {
+      <p>In categories: 
+      @for(category <- app.getCategory) {
+        <ol class="breadcrumb success">
+          @crumb(category)
+        </ol>
+      }
+      </p>
+      }
+        </div>
+        </div>
       </div>
     </div>
 
