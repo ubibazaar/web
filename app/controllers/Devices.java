@@ -1,10 +1,12 @@
 package controllers;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.ubicollab.ubibazaar.core.Device;
+import org.ubicollab.ubibazaar.core.Platform;
 import org.ubicollab.ubibazaar.core.User;
 
 import play.data.Form;
@@ -13,8 +15,6 @@ import services.UbibazaarService;
 import views.html.*;
 
 public class Devices extends UbibazaarController {
-  
-  public static Form<Device> deviceForm = Form.form(Device.class);
   
   public static Form form = Form.form();
 
@@ -32,24 +32,18 @@ public class Devices extends UbibazaarController {
     
     return ok(device_detail.render(device));
   }
-//
-//  public static Result query() {
-//    // find apps according to filter
-//    List<App> filtered = UbibazaarService.appService.query(getParams());
-//
-//    // find entities used for filtering
-//    // platform
-//    Optional<Platform> platform = getParam("platform")
-//        .map(platformId -> UbibazaarService.platformService.get(platformId));
-//    // user
-//    Optional<User> user = getParam("user")
-//        .map(userId -> UbibazaarService.userService.get(userId));
-//    // category
-//    Optional<Category> category = getParam("category")
-//        .map(categoryId -> UbibazaarService.categoryService.get(categoryId));
-//
-//    return ok(app_store_filtered.render(filtered, platform, user, category));
-//  }
+
+  public static Result query() {
+    // find devices according to filter
+    List<Device> filtered = UbibazaarService.deviceService.query(getParams(), session());
+
+    // find entities used for filtering
+    // platform
+    Optional<Platform> platform = getParam("platform")
+        .map(platformId -> UbibazaarService.platformService.get(platformId));
+
+    return ok(device_overview_filtered.render(filtered, platform));
+  }
   
   public static Result registrationForm() {
     return ok(device_registration.render(UbibazaarService.platformService.getList()));

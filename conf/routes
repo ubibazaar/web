@@ -14,7 +14,7 @@ GET     /apps/:id                   controllers.Apps.detail(id)
 GET     /devices/register           controllers.Devices.registrationForm()
 POST    /devices                    controllers.Devices.register()
 GET     /devices                    controllers.Devices.overview()
-#GET     /devices/query              controllers.Devices.query()
+GET     /devices/query              controllers.Devices.query()
 GET     /devices/:id                controllers.Devices.detail(id)
 
 # users ----
