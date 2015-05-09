@@ -1,0 +1,27 @@
+@(
+  app: org.ubicollab.ubibazaar.core.App,
+  devices: List[org.ubicollab.ubibazaar.core.Device]
+)
+
+@ubibazaar("Installing " + app.getName) {
+  
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron" id="welcome-message" class="collapse in">
+      <div class="container">
+        <h1>Installing @app.getName</h1>
+      </div>
+    </div>
+
+    <div class="container">
+      <h1>Which device do you want to install to?</h1>
+      @for(device <- devices) {
+		  <div class="col-md-4" class="thumbnail">
+        <a href="@routes.Installations.installTo(app.getId,device.getId)">
+          <h1>@device.getName()<br/>
+          <small>@device.getPlatform.getName</small></h1>
+        </a>
+		  </div>
+		  }
+    </div>
+
+}

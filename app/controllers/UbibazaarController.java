@@ -2,6 +2,8 @@ package controllers;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.ubicollab.ubibazaar.core.User;
 
@@ -27,7 +29,7 @@ public class UbibazaarController extends Controller {
         .forEach(queryParam -> params.put(queryParam.getKey(), queryParam.getValue()[0]));
     return params;
   }
-  
+
   protected static void storeUserInSession(User user) {
     // store credentials in session
     session("userid", user.getId());
@@ -44,6 +46,16 @@ public class UbibazaarController extends Controller {
     u.setUsername(session("username"));
     u.setPassword(session("password"));
     return u;
+  }
+
+  protected static Optional<String> extractId(String url) {
+    Pattern pattern = Pattern.compile("([0-91-f]{32})");
+    Matcher matcher = pattern.matcher(url);
+    if (matcher.find()) {
+      return Optional.of(matcher.group(1));
+    } else {
+      return Optional.empty();
+    }
   }
 
 }

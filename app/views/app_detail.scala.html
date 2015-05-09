@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-md-6">
         <p>@app.getDescription()</p>
-        <p><a class="btn btn-primary" href="#" role="button">Install</a></p>
+        <p><a class="btn btn-primary" href="@routes.Installations.install(app.getId)" role="button">Install</a></p>
             </div>
             <div class="col-md-6">
       <p>By <a href="@routes.Apps.query()?user=@app.getAuthor.getId">@app.getAuthor.getName</a>.</p>

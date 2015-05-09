@@ -157,6 +157,18 @@ public abstract class UbibazaarService<Entity> {
 
     return Iterables.getOnlyElement(response.get(1, TimeUnit.MINUTES));
   }
+  
+  public Boolean delete(String id, Session session) {
+    String url = getResourceUrl();
+    
+    Promise<Boolean> result = WS.url(url + id)
+        .setAuth(session.get("username"), session.get("password"))
+        .setContentType("application/json")
+        .delete()
+        .map(x->x.getStatus() == 200);
+
+    return result.get(1, TimeUnit.MINUTES);
+  }
 
   public abstract Type getType();
 
