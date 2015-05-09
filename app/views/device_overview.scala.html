@@ -8,13 +8,13 @@
         <h1>Devices</h1>
         <p>Register your devices here so you can install software to them directly from UbiBazaar!</p>
         <p>
-          <a class="btn btn-primary btn-lg" href="#" role="button">Register a device</a>
+          <a class="btn btn-primary btn-lg" href="@routes.Devices.registrationForm" role="button">Register a device</a>
         </p>
       </div>
     </div>
 
     <div class="container">
-    	@device_list("Registered devices", devices)
+    	@device_list("Your devices", devices)
     </div>
 
 }

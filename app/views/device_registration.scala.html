@@ -1,0 +1,30 @@
+@(platforms: Collection[org.ubicollab.ubibazaar.core.Platform])
+@import b3.vertical.fieldConstructor  // Declares a vertical field constructor as default
+
+@ubibazaar("New device registration") {
+
+	<div class="jumbotron" id="welcome-message" class="collapse in">
+		<div class="container">
+			<h1>New device registration</h1>
+			<p>Register a device in UbiBazaar so that you can install apps on it from here directly!</p>
+		</div>
+	</div>
+	
+	<div class="container">
+		@b3.form(routes.Devices.register) {
+			@b3.text( Devices.deviceForm("name"), '_label -> "Device name", 'placeholder -> "How you want to call your device (e.g. Pequod)" )
+		  
+      <div class="form-group">
+        <label for="sel1">Platform</label>
+        <select class="form-control" id="platform" name="platform">
+        @for(platform <- platforms) {
+          <option value="@platform.getId">@platform.getName</option>
+        }
+        </select>
+      </div>
+		  
+      @b3.submit('class -> "btn btn-default"){ Register }
+    }
+	</div>
+
+}

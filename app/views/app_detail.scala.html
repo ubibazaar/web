@@ -6,9 +6,9 @@
     <div class="jumbotron" id="welcome-message" class="collapse in">
       <div class="container">
         <h1>@app.getName <small>for <a href="@routes.Apps.query()?platform=@app.getPlatform.getId">@app.getPlatform.getName</a></small></h1>
-        <h2>developed by <a href="@routes.Apps.query()?user=@app.getAuthor.getId">@app.getAuthor.getName</a></h2>
+        <p>By <a href="@routes.Apps.query()?user=@app.getAuthor.getId">@app.getAuthor.getName</a>. 
         @if(!app.getCategory.isEmpty()) {
-        <p>Categories: 
+        In categories: 
         @for(category <- app.getCategory) {
           <a href="@routes.Apps.query()?category=@category.getId">@category.getName</a>
         }

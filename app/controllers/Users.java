@@ -42,12 +42,9 @@ public class Users extends UbibazaarController {
     Matcher matcher = pattern.matcher(createdUserResourceUrl);
     if (matcher.find()) {
       String id = matcher.group(1);
+      user.setId(id);
 
-      // store credentials in session
-      session("userid", id);
-      session("name", user.getName());
-      session("username", user.getUsername());
-      session("password", user.getPassword());
+      storeUserInSession(user);
 
       // redirect to profile page
       return redirect("/users/" + id);
@@ -67,16 +64,14 @@ public class Users extends UbibazaarController {
 
       if (success) {
         // look up this user to get id and name
-        User lookedUp = UbibazaarService.userService.getByUsername(entered.getUsername());
+        User user = UbibazaarService.userService.getByUsername(entered.getUsername());
+        user.setPassword(entered.getPassword());
 
         // store credentials in session
-        session("userid", lookedUp.getId());
-        session("name", lookedUp.getName());
-        session("username", lookedUp.getUsername());
-        session("password", entered.getPassword());
+        storeUserInSession(user);
 
         // redirect to profile page
-        return redirect("/users/" + lookedUp.getId());
+        return redirect("/users/" + user.getId());
       } else {
         // fail, show alert
         return forbidden(user_login.render(Optional.of(INCORRECT_CREDENTIALS)));
