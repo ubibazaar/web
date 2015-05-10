@@ -9,8 +9,6 @@ import org.ubicollab.ubibazaar.core.Device;
 import org.ubicollab.ubibazaar.core.Installation;
 import org.ubicollab.ubibazaar.core.Manager;
 import org.ubicollab.ubibazaar.core.Platform;
-import org.ubicollab.ubibazaar.core.User;
-
 import com.google.common.collect.ImmutableMap;
 
 import play.data.Form;
