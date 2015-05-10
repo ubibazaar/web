@@ -1,4 +1,6 @@
-@(message: Optional[String])
+@(
+  message: Optional[String]
+)
 @import b3.vertical.fieldConstructor  // Declares a vertical field constructor as default
 
 @ubibazaar("New user registration") {
@@ -6,14 +8,19 @@
 	<div class="jumbotron" id="welcome-message" class="collapse in">
 		<div class="container">
 			<h1>Log in</h1>
-			<p>If you are registered, just fill in your credentials below to log in. 
-			If you have not registered yet, please <a href="/register">register</a> first! You can always browse the app store without logging in, but you will not be able to 
-			register your devices and install the apps directly.</p>
+			<p>If you are registered, just fill in your credentials below to log in. If you have not 
+			registered yet, please <a href="/register">register</a> first! You can always browse the 
+			app store without logging in, but you will not be able to register your devices and install 
+			the apps directly.</p>
 		</div>
 	</div>
 	
 	<div class="container">
-		@if(message.isPresent) { <div class="alert alert-danger alert-dismissible fade in" role="alert"><p>@message.get</p></div> }
+		@if(message.isPresent) { 
+		<div class="alert alert-danger alert-dismissible fade in" role="alert">
+		  <p>@message.get</p>
+		</div>
+		}
 		
 		@b3.form(routes.Users.login) {
 			@b3.email( Users.userForm("username"), '_label -> "Email", 'placeholder -> "example@mail.com" )

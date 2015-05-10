@@ -1,17 +1,19 @@
-@(name: Optional[String], deviceList: Collection[org.ubicollab.ubibazaar.core.Device])
+@(
+  header: String,
+  headerFallback: String, 
+  devices: Collection[org.ubicollab.ubibazaar.core.Device]
+)
 
+<!-- header -->
+@smartheader(header, headerFallback, !devices.isEmpty)
 
-@if(name.isPresent) { 
-<h1>@name.get</h1> 
-<hr />
-}
-<!-- Example row of columns -->
 <div class="row">
 
-	@for(device <- deviceList) {
-	<div class="col-md-4" class="thumbnail">
+	@for(device <- devices) {
+	<div class="col-md-4">
 		<h2>@device.getName() <small>@device.getPlatform.getName</small></h2>
 		<p>
+		  <!-- FIXME info about apps and managers? -->
 			<a class="btn btn-default" role="button" href="@routes.Devices.detail(device.getId)">View details &raquo;</a>
 		</p>
 	</div>

@@ -22,7 +22,7 @@ public class Apps extends UbibazaarController {
   public static Result index() {
     List<App> apps = UbibazaarService.appService.getList();
 
-    return ok(app_store.render(Optional.<String>empty(), apps));
+    return ok(app_store.render(apps));
   }
 
   public static Result detail(String id) {
@@ -30,8 +30,8 @@ public class Apps extends UbibazaarController {
     App app = UbibazaarService.appService.get(id);
     
     // find similar apps - same author, same platform or same category
-    List<App> sameAuthorApps = UbibazaarService.appService.query(ImmutableMap.of("user", app.getAuthor().getId()));
-    List<App> samePlatformApps = UbibazaarService.appService.query(ImmutableMap.of("user", app.getPlatform().getId()));
+    List<App> sameAuthorApps = UbibazaarService.appService.query(ImmutableMap.of("author", app.getAuthor().getId()));
+    List<App> samePlatformApps = UbibazaarService.appService.query(ImmutableMap.of("platform", app.getPlatform().getId()));
     List<App> sameCategoryApps = (List<App>) app.getCategory().stream()
       .map(category-> category.getId())
       .map(categoryId-> ImmutableMap.of("category", categoryId))
@@ -56,7 +56,7 @@ public class Apps extends UbibazaarController {
     Optional<Platform> platform = getParam("platform")
         .map(platformId -> UbibazaarService.platformService.get(platformId));
     // user
-    Optional<User> user = getParam("user")
+    Optional<User> user = getParam("author")
         .map(userId -> UbibazaarService.userService.get(userId));
     // category
     Optional<Category> category = getParam("category")

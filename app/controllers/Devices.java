@@ -25,7 +25,7 @@ public class Devices extends UbibazaarController {
   public static Result overview() {
     List<Device> devices = UbibazaarService.deviceService.getList(session());
 
-    return ok(device_overview.render(Optional.<String>empty(), devices));
+    return ok(device_overview.render(devices));
   }
 
   public static Result detail(String id) {
@@ -49,7 +49,7 @@ public class Devices extends UbibazaarController {
     Optional<Platform> platform = getParam("platform")
         .map(platformId -> UbibazaarService.platformService.get(platformId));
 
-    return ok(device_overview_filtered.render(filtered, platform));
+    return ok(device_overview_filtered.render(platform, filtered));
   }
   
   public static Result registrationForm() {

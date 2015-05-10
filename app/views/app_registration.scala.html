@@ -15,21 +15,24 @@
   
   <div class="container">
     @b3.form(routes.AppDevelopmentController.add) {
-      @b3.text( AppDevelopmentController.form("name"), '_label -> "App name", 'placeholder -> "How you want to call your app" )
       
-      <div class="form-group">
+       <div class="row">
+            <div class="col-md-6">
+      @b3.text( AppDevelopmentController.form("name"), '_label -> "App name", 'placeholder -> "How you want to call your app" )
+      </div>
+      <div class="col-md-6 form-group">
         <label for="sel1">Platform</label>
         <select class="form-control" id="platform" name="platform">
         @for(platform <- platforms) {
           <option value="@platform.getId">@platform.getName</option>
         }
         </select>
-      </div>
-      
+        </div>
+        </div>
       <!-- FIXME categories -->
       <!-- FIXME properties -->
       @b3.textarea( AppDevelopmentController.form("description"), '_label -> "Description", 'rows -> 5 )
-      
+
       @b3.submit('class -> "btn btn-default"){ Add app }
     }
   </div>

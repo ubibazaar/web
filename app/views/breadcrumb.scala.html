@@ -1,0 +1,9 @@
+@(
+  category: org.ubicollab.ubibazaar.core.Category
+)
+
+  @if(category.getParent.getParent != null) { 
+    @breadcrumb(category.getParent)
+  }
+  
+  <li><a href="@routes.Apps.query()?category=@category.getId">@category.getName</a></li>

@@ -1,11 +1,9 @@
 @(
-  heading: Optional[String],
-  devices: List[org.ubicollab.ubibazaar.core.Device]
+  devices: Collection[org.ubicollab.ubibazaar.core.Device]
 )
 
 @ubibazaar("My devices") {
   
-  <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron" id="welcome-message" class="collapse in">
       <div class="container">
         <h1>My devices</h1>
@@ -17,7 +15,7 @@
     </div>
 
     <div class="container">
-    	@device_list(heading, devices)
+    	@device_list(null, "No devices added so far.", devices)
     </div>
 
 }

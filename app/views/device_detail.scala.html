@@ -6,19 +6,19 @@
 
 @ubibazaar(device.getName) {
 
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron" id="welcome-message" class="collapse in">
-      <div class="container">
-        <h1>@device.getName <small>@device.getPlatform.getName</small></h1>
-      </div>
-    </div>
-
+  <div class="jumbotron" id="welcome-message" class="collapse in">
     <div class="container">
+      <h1>@device.getName <small>@device.getPlatform.getName</small></h1>
+    </div>
+  </div>
+
+  <div class="container">
+  
     <!-- no managers -->
     @if(managers.isEmpty) {
-      <div class="alert alert-warning" role="alert">
-        There are no managers installed on this device. Please <a href="@routes.Managers.forPlatform(device.getPlatform.getId,device.getId)" class="alert-link">install one</a> in order to be able to install apps!
-      </div>
+    <div class="alert alert-warning" role="alert">
+      There are no managers installed on this device. Please <a href="@routes.Managers.forPlatform(device.getPlatform.getId,device.getId)" class="alert-link">install one</a> in order to be able to install apps!
+    </div>
     }
     
     <!-- non-complete managers -->
@@ -35,12 +35,13 @@
       
     <!-- installations -->
     @if(!installations.isEmpty) {
-      @installation_list(Optional.of("Installed apps"), installations)
+      @installation_list("Installed apps", "No apps installed", installations)
     } else {
       <div class="alert alert-info" role="alert">
         There are no apps installed on this device. Go to the <a href="@routes.Apps.index" class="alert-link">app store</a> and install some!
       </div>
     }
-    </div>
+  
+  </div>
 
 }

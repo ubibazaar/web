@@ -1,19 +1,24 @@
-@(user: org.ubicollab.ubibazaar.core.User, authoredApps: List[org.ubicollab.ubibazaar.core.App])
+@(
+  user: org.ubicollab.ubibazaar.core.User, 
+  authoredApps: List[org.ubicollab.ubibazaar.core.App]
+)
 
 @ubibazaar(user.getName) {
 	
 	<!-- FIXME own profile should look a bit different than profile of others..
 	maybe show devices? change password? -->
 
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron" id="welcome-message" class="collapse in">
-      <div class="container">
-        <h1>@user.getName <small>@user.getUsername</small></h1>
-      </div>
-    </div>
-
+  <div class="jumbotron" id="welcome-message" class="collapse in">
     <div class="container">
-    	@app_list(Optional.of("Authored apps"), authoredApps)
+      <h1>@user.getName <small>@user.getUsername</small></h1>
     </div>
+  </div>
+
+  <div class="container">
+    @app_list(
+      "Authored apps", 
+      "No authored apps. Have you created any? <a href=\"@routes.AppDevelopmentController.form\">Add it!</a>", 
+      authoredApps)
+  </div>
 
 }

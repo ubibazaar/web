@@ -1,20 +1,24 @@
 @(
-  devices: List[org.ubicollab.ubibazaar.core.Device],
-  platform: java.util.Optional[org.ubicollab.ubibazaar.core.Platform]
+  platform: java.util.Optional[org.ubicollab.ubibazaar.core.Platform],
+  devices: Collection[org.ubicollab.ubibazaar.core.Device]
 )
 
 @ubibazaar("Device dashboard") {
   
-    <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron" id="welcome-message" class="collapse in">
       <div class="container">
         <h1>Device search</h1>
+        <!-- filter information -->
         @if(platform.isPresent()) {<h3>Platform: @platform.get.getName</h3>}
       </div>
     </div>
 
     <div class="container">
-    	@device_list(Optional.of("Results (" + devices.size + ")"), devices)
+    	@device_list(
+    	  "Results (" + devices.size + ")", 
+    	  "No results matching criteria.", 
+    	  devices
+    	  )
     </div>
 
 }

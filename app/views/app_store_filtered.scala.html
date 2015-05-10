@@ -18,7 +18,12 @@
     </div>
 
     <div class="container">
-    	@app_list(Optional.of("Results (" + apps.size + ")"), apps)
+    @if(apps == null || apps.isEmpty) {
+      <h1>No resuts matching your criteria.</h1> 
+      <hr />
+    } else {
+      @app_list("Results (" + apps.size + ")", "No resuts match the criteria", apps)
+    }
     </div>
 
 }

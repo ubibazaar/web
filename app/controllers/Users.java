@@ -95,7 +95,7 @@ public class Users extends UbibazaarController {
     User user = UbibazaarService.userService.get(id);
 
     // find apps by user
-    List<App> apps = UbibazaarService.appService.query(ImmutableMap.of("user", id));
+    List<App> apps = UbibazaarService.appService.query(ImmutableMap.of("author", id));
 
     return ok(user_profile.render(user, apps));
   }

@@ -1,5 +1,4 @@
 @(
-  heading: Optional[String],
   apps: List[org.ubicollab.ubibazaar.core.App]
 )
 
@@ -13,7 +12,7 @@
     </div>
 
     <div class="container">
-    	@app_list(heading, apps)
+    	@app_list(null, "There are no apps in the app store!", apps)
     </div>
 
 }

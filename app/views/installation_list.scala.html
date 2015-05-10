@@ -1,28 +1,27 @@
 @(
-  heading: Optional[String],
+  header: String,
+  headerFallback: String,
   installations: Collection[org.ubicollab.ubibazaar.core.Installation]
 )
 
+@smartheader(header,headerFallback,!installations.isEmpty)
 
-@if(heading.isPresent) { 
-  <h1>@heading.get</h1> 
-  <hr />
-}
-
-<!-- Example row of columns -->
 <div class="row">
 
 	@for(installation <- installations) {
-	<div class="col-md-4">
-		<h2>@installation.getApp.getName()</h2>
-    	<h6>developed by <a href="@routes.Apps.query()?user=@installation.getApp.getAuthor.getId">@installation.getApp.getAuthor.getName</a></h6>
-    	@if(!installation.getApp.getCategory.isEmpty()) {
-      <h6>Categories: 
-        @for(category <- installation.getApp.getCategory) {
-          <a href="@routes.Apps.query()?category=@category.getId">@category.getName</a>
-        }
-      </h6>
-      }
+  <div class="col-md-4">
+    <h2>@installation.getApp.getName()</h2>
+    
+    <h6>developed by <a href="@routes.Apps.query()?author=@installation.getApp.getAuthor.getId">@installation.getApp.getAuthor.getName</a></h6>
+    
+    @if(!installation.getApp.getCategory.isEmpty()) {
+    <h6>Categories: 
+    @for(category <- installation.getApp.getCategory) {
+    <a href="@routes.Apps.query()?category=@category.getId">@category.getName</a>
+    }
+    </h6>
+    }
+    
 		<p>@installation.getApp.getDescription()</p>
           
 		<p>
@@ -30,6 +29,6 @@
 			<a class="btn btn-default" role="button" href="FIXME">View details &raquo;</a>
 		</p>
 	</div>
-	}
+  }
 		
 </div>
