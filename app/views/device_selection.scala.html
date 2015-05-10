@@ -13,7 +13,11 @@
     </div>
 
     <div class="container">
-      <h1>Which device do you want to install to?</h1>
+      @util.smartheader(
+        "Select device you want to install to. <small><a href=\"" + routes.Devices.registrationForm + "\">Want to add a new one?</a></small>",
+        "You do not have any compatible device. <small><a href=\"" + routes.Devices.registrationForm + "\">Want to add a new one?</a></small>",
+        !devices.isEmpty())
+
       @for(device <- devices) {
 		  <div class="col-md-4" class="thumbnail">
         <a href="@routes.Installations.installTo(app.getId,device.getId)">
