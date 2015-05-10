@@ -35,5 +35,9 @@ GET     /install/:id                controllers.Installations.install(id)
 GET     /install/:id/to/:dev        controllers.Installations.installTo(id, dev)
 GET     /uninstall/:id              controllers.Installations.uninstall(id)
 
+# app development
+GET     /newapp                     controllers.AppDevelopmentController.form()
+POST    /apps                       controllers.AppDevelopmentController.add()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
