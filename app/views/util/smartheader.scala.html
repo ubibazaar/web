@@ -6,12 +6,12 @@
 
   @if(condition) {
     @if(!com.google.common.base.Strings.isNullOrEmpty(header)) {
-      <h1>@header</h1>
+      <h1>@Html(header)</h1>
       <hr />
     }
   } else {
     @if(!com.google.common.base.Strings.isNullOrEmpty(headerIfFalse)) {
-      <h1>@headerIfFalse</h1>
+      <h1>@Html(headerIfFalse)</h1>
       <hr />
     }
   }

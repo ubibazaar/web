@@ -16,8 +16,8 @@
 
   <div class="container">
     @app_list(
-      "Authored apps", 
-      "No authored apps. Have you created any? <a href=\"@routes.AppDevelopmentController.form\">Add it!</a>", 
+      "Your apps. <small>Created more? <a href=\"" + routes.AppDevelopmentController.step1 + "\">Add them!</a></small>", 
+      "You have not added any apps. <small>Created any? <a href=\"" + routes.AppDevelopmentController.step1 + "\">Add them!</a></small>", 
       authoredApps)
   </div>
 

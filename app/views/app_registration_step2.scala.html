@@ -1,0 +1,45 @@
+@(
+  name: String, 
+  platform: String, 
+  description: String, 
+  propertyTable: com.google.common.collect.Table[org.ubicollab.ubibazaar.core.ManagerType, String, String]
+  )
+@import b3.vertical.fieldConstructor  // Declares a vertical field constructor as default
+
+@ubibazaar("New device registration") {
+
+  <div class="jumbotron" id="welcome-message" class="collapse in">
+    <div class="container">
+      <h1>New app</h1>
+    </div>
+  </div>
+  
+  <div class="container">
+    <div class="progress">
+      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+        <span class="sr-only">Step 2 of 2</span>
+      </div>
+    </div>
+    <h1>Step 2 (of 2) <small>Setting installation properties</small></h1>
+    <p>Please fill in properties below so that users can install your app on their devices. If 
+    there is more than one installation type, you can choose to support more of them (or not).</p>
+    
+    @b3.form(routes.AppDevelopmentController.add) {
+     
+      <!-- some data passing through -->
+	    <input type="hidden" id="name" name="name" value="@name">
+	    <input type="hidden" id="platform" name="platform" value="@platform">
+	    <input type="hidden" id="description" name="description" value="@description">
+	    
+	    @for(managerTypePropertyRow <- propertyTable.rowMap().entrySet()) {
+	     <h3>Installation type: @managerTypePropertyRow.getKey.getInstallationMethod.getName</h3>
+	     @for(property <- managerTypePropertyRow.getValue.entrySet) {
+	       @b3.text( AppDevelopmentController.form(property.getKey), '_label -> property.getKey, 'placeholder -> property.getValue )
+	     }
+	    }
+	
+	    @b3.submit('class -> "btn btn-default"){ Next step }
+    }
+  </div>
+
+}
