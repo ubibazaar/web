@@ -28,7 +28,7 @@ public abstract class UbibazaarService<Entity> {
   public static ManagerService managerService = new ManagerService();
   public static ManagerTypeService managerTypeService = new ManagerTypeService();
 
-  private static final String API_URL = "http://ubibazaar.io:8080/ubibazaar-api";
+  private static final String API_URL = "http://ubibazaar.com:8080/ubibazaar-api";
 
   protected String getResourceUrl() {
     return API_URL + "/resources/" + getResourceName() + "/";
