@@ -16,6 +16,12 @@ import views.html.*;
 public class Installations extends UbibazaarController {
 
   public static Result install(String id) {
+    // secure from accessing without being logged in
+    if(fetchUserFromSession().getId() == null) {
+      session("afterlogin_redir",request().uri());
+      return redirect("/login");
+    }
+    
     App app = UbibazaarService.appService.get(id);
 
     ImmutableMap<String, String> platformQuery =
@@ -26,6 +32,12 @@ public class Installations extends UbibazaarController {
   }
 
   public static Result installTo(String appId, String deviceId) {
+    // secure from accessing without being logged in
+    if(fetchUserFromSession().getId() == null) {
+      session("afterlogin_redir","/install/" + appId);
+      return redirect("/login");
+    }
+    
     App app = UbibazaarService.appService.get(appId);
     Device device = UbibazaarService.deviceService.get(deviceId, session());
 
@@ -46,6 +58,12 @@ public class Installations extends UbibazaarController {
   }
   
   public static Result uninstall(String installationId) {
+    // secure from accessing without being logged in
+    if(fetchUserFromSession().getId() == null) {
+      session("afterlogin_redir",request().uri());
+      return redirect("/login");
+    }
+    
     Installation inst = UbibazaarService.installationService.get(installationId, session());
     
     if(UbibazaarService.installationService.delete(installationId, session())) {

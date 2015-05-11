@@ -70,6 +70,13 @@ public class Users extends UbibazaarController {
         // store credentials in session
         storeUserInSession(user);
 
+        // redirect to originally accessed URL, if there was any
+        if(session("afterlogin_redir") != null) {
+          String session = session("afterlogin_redir");
+          session().remove("afterlogin_redir");
+          return redirect(session);
+        }
+        
         // redirect to profile page
         return redirect("/users/" + user.getId());
       } else {
@@ -91,6 +98,12 @@ public class Users extends UbibazaarController {
   }
 
   public static Result profile(String id) {
+    // secure from accessing without being logged in
+    if(fetchUserFromSession().getId() == id) {
+      session("afterlogin_redir",request().uri());
+      return redirect("/login"); //FIXME not his profile
+    }
+    
     // find user
     User user = UbibazaarService.userService.get(id);
 

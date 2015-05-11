@@ -5,8 +5,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
 import org.ubicollab.ubibazaar.core.App;
 import org.ubicollab.ubibazaar.core.ManagerType;
 import org.ubicollab.ubibazaar.core.Platform;
@@ -29,12 +27,24 @@ public class AppDevelopmentController extends UbibazaarController {
   public static Form form = Form.form();
   
   public static Result step1() {
+    // secure from accessing without being logged in
+    if(fetchUserFromSession().getId() == null) {
+      session("afterlogin_redir",request().uri());
+      return redirect("/login");
+    }
+    
     List<Platform> platforms = UbibazaarService.platformService.getList();
     Category categories = UbibazaarService.categoryService.get("");
     return ok(app_registration_step1.render(platforms, categories));
   }
   
   public static Result step2() {
+    // secure from accessing without being logged in
+    if(fetchUserFromSession().getId() == null) {
+      session("afterlogin_redir","newapp_1");
+      return redirect("/login");
+    }
+    
     Form requestForm = form.bindFromRequest();
     String name = (String) requestForm.data().get("name");
     String platform = (String) requestForm.data().get("platform");
@@ -56,6 +66,12 @@ public class AppDevelopmentController extends UbibazaarController {
   }
   
   public static Result add() {
+    // secure from accessing without being logged in
+    if(fetchUserFromSession().getId() == null) {
+      session("afterlogin_redir","newapp_1");
+      return redirect("/login");
+    }
+    
     Form requestForm = form.bindFromRequest();
     String name = (String) requestForm.data().get("name");
     String platform = (String) requestForm.data().get("platform");

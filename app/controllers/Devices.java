@@ -21,12 +21,24 @@ public class Devices extends UbibazaarController {
   public static Form form = Form.form();
 
   public static Result overview() {
+    // secure from accessing without being logged in
+    if(fetchUserFromSession().getId() == null) {
+      session("afterlogin_redir",request().uri());
+      return redirect("/login");
+    }
+    
     List<Device> devices = UbibazaarService.deviceService.getList(session());
 
     return ok(device_overview.render(devices));
   }
 
   public static Result detail(String id) {
+    // secure from accessing without being logged in
+    if(fetchUserFromSession().getId() == null) {
+      session("afterlogin_redir",request().uri());
+      return redirect("/login");
+    }
+    
     // find the app
     Device device = UbibazaarService.deviceService.get(id, session());
 
@@ -39,6 +51,12 @@ public class Devices extends UbibazaarController {
   }
 
   public static Result query() {
+    // secure from accessing without being logged in
+    if(fetchUserFromSession().getId() == null) {
+      session("afterlogin_redir",request().uri());
+      return redirect("/login");
+    }
+    
     // find devices according to filter
     List<Device> filtered = UbibazaarService.deviceService.query(getParams(), session());
 
@@ -51,10 +69,22 @@ public class Devices extends UbibazaarController {
   }
   
   public static Result registrationForm() {
+    // secure from accessing without being logged in
+    if(fetchUserFromSession().getId() == null) {
+      session("afterlogin_redir",request().uri());
+      return redirect("/login");
+    }
+    
     return ok(device_registration.render(UbibazaarService.platformService.getList()));
   }
   
   public static Result register() {
+    // secure from accessing without being logged in
+    if(fetchUserFromSession().getId() == null) {
+      session("afterlogin_redir","/devices/add");
+      return redirect("/login");
+    }
+    
     // load form user data
     Form requestForm = form.bindFromRequest();
     String name = (String)requestForm.data().get("name");
