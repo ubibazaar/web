@@ -1,6 +1,7 @@
 @(
   app: org.ubicollab.ubibazaar.core.App,
-  devices: List[org.ubicollab.ubibazaar.core.Device]
+  devices: List[org.ubicollab.ubibazaar.core.Device],
+  message: Optional[String]
 )
 
 @ubibazaar("Installing " + app.getName) {
@@ -13,6 +14,12 @@
     </div>
 
     <div class="container">
+	    @if(message.isPresent) { 
+	    <div class="alert alert-danger alert-dismissible fade in" role="alert">
+	      <p>@message.get</p>
+	    </div>
+	    }
+	    
       @util.smartheader(
         "Select device you want to install to. <small><a href=\"" + routes.Devices.registrationForm + "\">Want to add a new one?</a></small>",
         "You do not have any compatible device. <small><a href=\"" + routes.Devices.registrationForm + "\">Want to add a new one?</a></small>",

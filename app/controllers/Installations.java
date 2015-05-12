@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.ubicollab.ubibazaar.core.App;
 import org.ubicollab.ubibazaar.core.Device;
 import org.ubicollab.ubibazaar.core.Installation;
+import org.ubicollab.ubibazaar.core.Manager;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -28,7 +29,7 @@ public class Installations extends UbibazaarController {
         ImmutableMap.of("platform", app.getPlatform().getId());
     List<Device> devices = UbibazaarService.deviceService.query(platformQuery, session());
 
-    return ok(device_selection.render(app, devices));
+    return ok(device_selection.render(app, devices, Optional.<String>empty()));
   }
 
   public static Result installTo(String appId, String deviceId) {
@@ -40,6 +41,14 @@ public class Installations extends UbibazaarController {
     
     App app = UbibazaarService.appService.get(appId);
     Device device = UbibazaarService.deviceService.get(deviceId, session());
+    
+    ImmutableMap<String, String> query = ImmutableMap.of("device", device.getId(), "app", app.getId());
+    if(!UbibazaarService.installationService.query(query, session()).isEmpty()) {
+      ImmutableMap<String, String> platformQuery =
+          ImmutableMap.of("platform", app.getPlatform().getId());
+      List<Device> devices = UbibazaarService.deviceService.query(platformQuery, session());
+      return ok(device_selection.render(app, devices, Optional.of("Sorry, the device you selected has this app installed already. Select another one.")));
+    }
 
     Installation installation = new Installation();
     installation.setApp(app);
