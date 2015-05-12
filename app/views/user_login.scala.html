@@ -15,7 +15,15 @@
 		</div>
 	</div>
 	
+	
 	<div class="container">
+    @if(session.get("afterlogin_redir2") != null) {
+    <div class="alert alert-danger alert-dismissible fade in" role="alert">
+      You need to log in to perform this action. If you have not registered yet, please 
+      <a class="alert-link" href="/register">register</a> first!
+    </div>
+    }
+    
 		@if(message.isPresent) { 
 		<div class="alert alert-danger alert-dismissible fade in" role="alert">
 		  <p>@message.get</p>

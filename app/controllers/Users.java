@@ -27,6 +27,17 @@ public class Users extends UbibazaarController {
   }
 
   public static Result loginForm() {
+    // this trick makes the message in the login form disappear once 
+    // first clean the step2 cookie
+    session().remove("afterlogin_redir2");
+    // and only if step1 was set now
+    if(session("afterlogin_redir") != null) {
+      // set step2
+      session("afterlogin_redir2",session("afterlogin_redir"));
+      //and then clean the step1
+      session().remove("afterlogin_redir");
+    }
+    
     return ok(user_login.render(Optional.<String>empty()));
   }
 
@@ -71,9 +82,9 @@ public class Users extends UbibazaarController {
         storeUserInSession(user);
 
         // redirect to originally accessed URL, if there was any
-        if(session("afterlogin_redir") != null) {
-          String session = session("afterlogin_redir");
-          session().remove("afterlogin_redir");
+        if(session("afterlogin_redir2") != null) {
+          String session = session("afterlogin_redir2");
+          session().remove("afterlogin_redir2");
           return redirect(session);
         }
         
