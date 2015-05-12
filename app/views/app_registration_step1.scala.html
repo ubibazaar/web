@@ -22,32 +22,39 @@
     <p>Please select the platform on which you built your app, and choose name and description 
     for the app. This is important for the people to find it in the app store.</p>
     
-    @b3.form(routes.AppDevelopmentController.step2) {
-      
+    <form action="/newapp_2" method="POST" class="form-vertical" role="form" data-toggle="validator">
+
       <div class="row">
         <div class="col-md-6">
-          @b3.text( AppDevelopmentController.form("name"), '_label -> "App name", 'placeholder -> "How you want to call your app" )
+          <div class="form-group" id="name_field">
+            <label class="control-label" for="name">App name</label>
+            <input type="text" id="name" name="name" value="" class="form-control" placeholder="How you want to call your app" data-error="Name is required." required>
+          </div>
         </div>
         
         <div class="col-md-6 form-group">
-          <label for="sel1">Platform</label>
-          <select class="form-control" id="platform" name="platform">
-            @for(platform <- platforms) {
-            <option value="@platform.getId">@platform.getName</option>
-          }
-          </select>
+          <div class="form-group" id=platform_field">
+	          <label for="sel1">Platform</label>
+	          <select class="form-control" id="platform" name="platform" data-error="Platform is required." required>
+	            @for(platform <- platforms) {
+	            <option value="@platform.getId">@platform.getName</option>
+	          }
+	          </select>
+	        </div>
         </div>
       </div>
       
-      @b3.textarea( AppDevelopmentController.form("description"), 
-        '_label -> "Description", 
-        'placeholder -> "What is the app doing?", 
-        'rows -> 5 )
+      <div class="form-group" id="description_field">
+        <label class="control-label" for="description">Description</label>
+        <textarea id="description" name="description" class="form-control" placeholder="What is the app doing?" rows="5" data-error="Please write at least a short description." required></textarea>
+      </div>
 
       <!-- FIXME categories -->
 
-      @b3.submit('class -> "btn btn-default"){ Next step }
-    }
+      <div class="form-group  " id="">
+        <button type="submit" class="btn btn-default">Next step</button>
+      </div>
+    </form>
   </div>
 
 }

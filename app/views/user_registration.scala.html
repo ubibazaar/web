@@ -14,12 +14,23 @@
 	</div>
 	
 	<div class="container">
-		@b3.form(routes.Users.register) {
-			@b3.text( Users.userForm("name"), '_label -> "Name", 'placeholder -> "Ola Nordmann" )
-			@b3.email( Users.userForm("username"), '_label -> "Email", 'placeholder -> "example@mail.com" )
-			@b3.password( Users.userForm("password"), '_label -> "Password", 'placeholder -> "Password" )
-			@b3.submit('class -> "btn btn-default"){ Register }
-		}
+    <form action="/register" method="POST" class="form-vertical" role="form" data-toggle="validator">
+      <div class="form-group" id="name_field">
+        <label class="control-label" for="name">Name</label>
+        <input type="text" id="name" name="name" class="form-control" placeholder="Your real-world name or an alias. (Will show next to the apps you author.)" data-error="Name is required." required>
+      </div>
+      <div class="form-group" id="username_field">
+        <label class="control-label" for="username">Email</label>
+        <input type="email" id="username" name="username" class="form-control" placeholder="example@@mail.com (Will be kept private)" data-error="Username is required." required>
+      </div>
+      <div class="form-group" id="password_field">
+        <label class="control-label" for="password">Password</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Password" data-error="Password is required." required>
+      </div>
+      <div class="form-group" id="">
+        <button type="submit" class="btn btn-default">Register</button>
+      </div>
+</form>
 	</div>
 
 }
