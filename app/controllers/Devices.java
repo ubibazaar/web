@@ -75,40 +75,44 @@ public class Devices extends UbibazaarController {
       return redirect("/login");
     }
     
-    return ok(device_registration.render(UbibazaarService.platformService.getList()));
+    return ok(device_registration.render(UbibazaarService.platformService.getList(), Optional.<String>empty()));
   }
   
   public static Result register() {
-    // secure from accessing without being logged in
-    if(fetchUserFromSession().getId() == null) {
-      session("afterlogin_redir","/devices/add");
-      return redirect("/login");
-    }
-    
-    // load form user data
-    Form requestForm = form.bindFromRequest();
-    String name = (String)requestForm.data().get("name");
-    String platform = (String)requestForm.data().get("platform");
-
-    // instantiate
-    Device device = new Device();
-    device.setName(name);
-    device.setPlatform(UbibazaarService.platformService.get(platform));
-    device.setOwner(fetchUserFromSession()); // logged user is the owner
-
-    // register device in api
-    String createdDeviceResourceUrl = UbibazaarService.deviceService.create(device, session());
-
-    // find created device id
-    Pattern pattern = Pattern.compile("([0-91-f]{32})");
-    Matcher matcher = pattern.matcher(createdDeviceResourceUrl);
-    if (matcher.find()) {
-      String id = matcher.group(1);
-
-      // redirect to profile page
-      return redirect("/devices/" + id);
-    } else {
-      throw new RuntimeException("No user id in response.");
+    try {
+      // secure from accessing without being logged in
+      if(fetchUserFromSession().getId() == null) {
+        session("afterlogin_redir","/devices/add");
+        return redirect("/login");
+      }
+      
+      // load form user data
+      Form requestForm = form.bindFromRequest();
+      String name = (String)requestForm.data().get("name");
+      String platform = (String)requestForm.data().get("platform");
+  
+      // instantiate
+      Device device = new Device();
+      device.setName(name);
+      device.setPlatform(UbibazaarService.platformService.get(platform));
+      device.setOwner(fetchUserFromSession()); // logged user is the owner
+  
+      // register device in api
+      String createdDeviceResourceUrl = UbibazaarService.deviceService.create(device, session());
+  
+      // find created device id
+      Pattern pattern = Pattern.compile("([0-91-f]{32})");
+      Matcher matcher = pattern.matcher(createdDeviceResourceUrl);
+      if (matcher.find()) {
+        String id = matcher.group(1);
+  
+        // redirect to profile page
+        return redirect("/devices/" + id);
+      } else {
+        throw new RuntimeException("No device id in response.");
+      }
+    } catch(IllegalArgumentException e) {
+      return ok(device_registration.render(UbibazaarService.platformService.getList(), Optional.of(e.getMessage())));
     }
   }
 

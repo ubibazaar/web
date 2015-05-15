@@ -12,6 +12,7 @@ import play.libs.ws.WS;
 import play.libs.ws.WSRequestHolder;
 import play.libs.ws.WSResponse;
 import play.mvc.Http.Session;
+import play.mvc.Http.Status;
 
 import com.google.common.collect.Iterables;
 import com.google.gson.Gson;
@@ -141,16 +142,16 @@ public abstract class UbibazaarService<Entity> {
     
     String json = new Gson().toJson(entity);
     
-    Promise<WSResponse> re = request
+    WSResponse response = request
         .setContentType("application/json")
-        .post(json);
+        .post(json)
+        .get(1, TimeUnit.MINUTES);
     
-    Promise<List<String>> response = re
-        .map(x -> x.getAllHeaders())
-        .map(x -> x.get("Location"))
-        ;
-
-    return Iterables.getOnlyElement(response.get(1, TimeUnit.MINUTES));
+    if(response.getStatus() == Status.BAD_REQUEST) {
+      throw new IllegalArgumentException(response.getBody());
+    } else {
+      return Iterables.getOnlyElement(response.getAllHeaders().get("Location"));
+    }
   }
   
   public Boolean delete(String id, Session session) {

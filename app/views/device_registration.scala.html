@@ -1,7 +1,7 @@
 @(
-  platforms: Collection[org.ubicollab.ubibazaar.core.Platform]
+  platforms: Collection[org.ubicollab.ubibazaar.core.Platform],
+  message: Optional[String]
 )
-@import b3.vertical.fieldConstructor  // Declares a vertical field constructor as default
 
 @ubibazaar("New device registration") {
 
@@ -13,6 +13,13 @@
 	</div>
 	
 	<div class="container">
+	     
+    @if(message.isPresent) { 
+    <div class="alert alert-danger alert-dismissible fade in" role="alert">
+      <p>@message.get</p>
+    </div>
+    }
+    
     <form action="/devices" method="POST" class="form-vertical" role="form" data-toggle="validator">
       
       <div class="row">

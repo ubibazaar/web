@@ -23,7 +23,7 @@ public class Users extends UbibazaarController {
   public static Form<User> userForm = Form.form(User.class);
 
   public static Result registrationForm() {
-    return ok(user_registration.render());
+    return ok(user_registration.render(Optional.<String>empty()));
   }
 
   public static Result loginForm() {
@@ -42,25 +42,29 @@ public class Users extends UbibazaarController {
   }
 
   public static Result register() {
-    // load form user data
-    User user = userForm.bindFromRequest().get();
-
-    // create user
-    String createdUserResourceUrl = UbibazaarService.userService.create(user);
-
-    // find created user id
-    Pattern pattern = Pattern.compile("([0-91-f]{32})");
-    Matcher matcher = pattern.matcher(createdUserResourceUrl);
-    if (matcher.find()) {
-      String id = matcher.group(1);
-      user.setId(id);
-
-      storeUserInSession(user);
-
-      // redirect to profile page
-      return redirect("/users/" + id);
-    } else {
-      throw new RuntimeException("No user id in response.");
+    try {
+      // load form user data
+      User user = userForm.bindFromRequest().get();
+  
+      // create user
+      String createdUserResourceUrl = UbibazaarService.userService.create(user);
+  
+      // find created user id
+      Pattern pattern = Pattern.compile("([0-91-f]{32})");
+      Matcher matcher = pattern.matcher(createdUserResourceUrl);
+      if (matcher.find()) {
+        String id = matcher.group(1);
+        user.setId(id);
+  
+        storeUserInSession(user);
+  
+        // redirect to profile page
+        return redirect("/users/" + id);
+      } else {
+        throw new RuntimeException("No user id in response.");
+      }
+    } catch(IllegalArgumentException e) {
+      return ok(user_registration.render(Optional.of(e.getMessage())));
     }
   }
 
