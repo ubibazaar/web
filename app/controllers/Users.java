@@ -59,7 +59,7 @@ public class Users extends UbibazaarController {
         storeUserInSession(user);
   
         // redirect to profile page
-        return redirect("/users/" + id);
+        return redirect("/profile");
       } else {
         throw new RuntimeException("No user id in response.");
       }
@@ -93,7 +93,7 @@ public class Users extends UbibazaarController {
         }
         
         // redirect to profile page
-        return redirect("/users/" + user.getId());
+        return redirect("/profile");
       } else {
         // fail, show alert
         return forbidden(user_login.render(Optional.of(INCORRECT_CREDENTIALS)));
@@ -112,12 +112,8 @@ public class Users extends UbibazaarController {
     return redirect("/login");
   }
 
-  public static Result profile(String id) {
-    // secure from accessing without being logged in
-    if(fetchUserFromSession().getId() == id) {
-      session("afterlogin_redir",request().uri());
-      return redirect("/login"); //FIXME not his profile
-    }
+  public static Result profile() {
+    String id = fetchUserFromSession().getId();
     
     // find user
     User user = UbibazaarService.userService.get(id);

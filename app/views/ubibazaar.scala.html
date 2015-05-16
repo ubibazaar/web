@@ -1,5 +1,11 @@
 @(title: String)(content: Html)
 
+@activateOn(name: String) = {
+  @if(request.uri.startsWith("/" + name)) {
+    class="active"
+  }
+}
+
 <!DOCTYPE html>
 
 <html>
@@ -33,10 +39,10 @@
 	      <div id="navbar" class="navbar-collapse collapse">
           <!-- left -->
           <ul class="nav navbar-nav navbar-left">
-            <li><a href="@routes.Apps.index()">App store</a></li>
+            <li @activateOn("apps")><a href="@routes.Apps.index()">App store</a></li>
             
             @if(session.get("userid") != null) { 
-            <li><a href="@routes.Devices.overview()">My devices</a></li>
+            <li @activateOn("devices") @activateOn("pair")><a href="@routes.Devices.overview()">My devices</a></li>
             }
             
           </ul>
@@ -44,11 +50,11 @@
           <!-- right -->
           <ul class="nav navbar-nav navbar-right">
             @if(session.get("userid") != null) { 
-            <li><a href="@routes.Users.profile(session.get("userid"))">Profile (@session.get("name"))</a></li>
+            <li @activateOn("profile")><a href="@routes.Users.profile()">Profile (@session.get("name"))</a></li>
             <li><a href="@routes.Users.logout">Log out</a></li>
             } else {
-            <li><a href="@routes.Users.loginForm">Log in</a></li>
-            <li><a href="@routes.Users.registrationForm">Register</a></li>
+            <li @activateOn("login")><a href="@routes.Users.loginForm">Log in</a></li>
+            <li @activateOn("register")><a href="@routes.Users.registrationForm">Register</a></li>
             }
           </ul>
         </div>
@@ -58,16 +64,17 @@
     <main>
       @content
     </main>
-    <hr>
     
     <footer class="container">
-      <p>&copy; UbiCollab 2015</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <hr>
+      <p>UbiBazaar 2015. </p>
+      <p>All the software implemented in the UbiBazaar project is released under 
+      <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License Version 2.0</a> 
+      and all sources can be found on 
+      <a href="https://github.com/ubibazaar">https://github.com/ubibazaar</a>.</p>
+      <p>For more information on the UbiBazaar project, see project webpages on 
+      <a href="https://ubibazaar.github.io">https://ubibazaar.github.io</a>.</p>
     </footer>
   </body>
 </html>
+

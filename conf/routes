@@ -1,11 +1,10 @@
 # Routes
 # This file defines all application routes (Higher priority routes first)
-# ~~~~
 
 # Home page
 GET     /                           controllers.Main.landing()
 
-# apps
+# app store
 GET     /apps                       controllers.Apps.index()
 GET     /apps/query                 controllers.Apps.query()
 GET     /apps/:id                   controllers.Apps.detail(id)
@@ -17,18 +16,14 @@ GET     /devices                    controllers.Devices.overview()
 GET     /devices/query              controllers.Devices.query()
 GET     /devices/:id                controllers.Devices.detail(id)
 GET     /pair/:pid/with/:did        controllers.Managers.forPlatform(pid, did)
-#FIXME route to choose from different anager types
 
 # users ----
-GET     /register                  	controllers.Users.registrationForm()
-POST    /register                  	controllers.Users.register()
-
-GET     /login                  	controllers.Users.loginForm()
-POST    /login                  	controllers.Users.login()
-
-GET     /logout                  	controllers.Users.logout()
-
-GET    	/users/:id                	controllers.Users.profile(id)
+GET     /register                   controllers.Users.registrationForm()
+POST    /register                   controllers.Users.register()
+GET     /login                      controllers.Users.loginForm()
+POST    /login                      controllers.Users.login()
+GET     /logout                     controllers.Users.logout()
+GET     /profile                    controllers.Users.profile()
 
 # installations 
 GET     /install/:id                controllers.Installations.install(id)
