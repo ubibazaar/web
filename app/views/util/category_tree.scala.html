@@ -1,0 +1,13 @@
+@(
+  category: org.ubicollab.ubibazaar.core.Category
+)
+
+  <li><input type="checkbox" name="category[]" value="@category.getId"> @category.getName</li>
+  
+  @if(category.getChildren != null && !category.getChildren.isEmpty) {
+    <ul>
+      @for(child <- category.getChildren) {
+        @category_tree(child)
+      }
+    </ul> 
+  }

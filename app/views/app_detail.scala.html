@@ -19,7 +19,7 @@
           @if(!app.getCategory.isEmpty()) {
           <p>In categories: 
           @for(category <- app.getCategory) {
-            <ol class="breadcrumb success">
+            <ol class="breadcrumb success" style="margin-bottom: 0em; padding: 0.5em">
               @util.breadcrumb(category)
             </ol>
           }

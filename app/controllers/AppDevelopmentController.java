@@ -3,16 +3,23 @@ package controllers;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 import org.ubicollab.ubibazaar.core.App;
 import org.ubicollab.ubibazaar.core.ManagerType;
 import org.ubicollab.ubibazaar.core.Platform;
 import org.ubicollab.ubibazaar.core.Category;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -49,6 +56,15 @@ public class AppDevelopmentController extends UbibazaarController {
     String name = (String) requestForm.data().get("name");
     String platform = (String) requestForm.data().get("platform");
     String description = (String) requestForm.data().get("description");
+
+    // categories
+    Set<String> categories = Sets.newHashSet();
+    int index = 0;
+    while(requestForm.data().get("category[" + index + "]") != null) {
+      categories.add((String)requestForm.data().get("category[" + index + "]"));
+      index++;
+    }
+    String categoriesString = Joiner.on(",").join(categories);
     
     List<ManagerType> managerTypes = UbibazaarService.managerTypeService.query(ImmutableMap.of("platform", platform));
     
@@ -62,7 +78,7 @@ public class AppDevelopmentController extends UbibazaarController {
       }
     }
     
-    return ok(app_registration_step2.render(name, platform, description, propertyTable));
+    return ok(app_registration_step2.render(name, platform, description, propertyTable, categoriesString));
   }
   
   public static Result add() {
@@ -76,6 +92,14 @@ public class AppDevelopmentController extends UbibazaarController {
     String name = (String) requestForm.data().get("name");
     String platform = (String) requestForm.data().get("platform");
     String description = (String) requestForm.data().get("description");
+    String categoriesString = (String) requestForm.data().get("categories");
+    
+    // process categories
+    Set<Category> categories = StreamSupport
+      .stream(Splitter.on(",").split(categoriesString).spliterator(), false)
+      .map(categoryId->UbibazaarService.categoryService.get(categoryId))
+      .collect(Collectors.toSet());
+    
 
     // find properties
     Map<String, String> receivedProperties = findReceivedProperties(requestForm, platform);
@@ -87,8 +111,7 @@ public class AppDevelopmentController extends UbibazaarController {
     app.setAuthor(fetchUserFromSession()); // logged user is the owner
     app.setDescription(description);
     app.setProperties(new Gson().toJson(receivedProperties));
-    
-    //FIXME categories
+    app.setCategory(categories);
     
     // register app in api
     String createdDeviceResourceUrl = UbibazaarService.appService.create(app, session());

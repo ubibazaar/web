@@ -1,8 +1,7 @@
 @(
   platforms: Collection[org.ubicollab.ubibazaar.core.Platform],
-  categories: org.ubicollab.ubibazaar.core.Category
-  )
-@import b3.vertical.fieldConstructor  // Declares a vertical field constructor as default
+  category: org.ubicollab.ubibazaar.core.Category
+)
 
 @ubibazaar("New device registration") {
 
@@ -44,12 +43,25 @@
         </div>
       </div>
       
-      <div class="form-group" id="description_field">
-        <label class="control-label" for="description">Description</label>
-        <textarea id="description" name="description" class="form-control" placeholder="What is the app doing?" rows="5" data-error="Please write at least a short description." required></textarea>
-      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group" id="description_field">
+            <label class="control-label" for="description">Description</label>
+            <textarea id="description" name="description" class="form-control" placeholder="What is the app doing?" rows="5" data-error="Please write at least a short description." required></textarea>
+          </div>
+        </div>
 
-      <!-- FIXME categories -->
+        <div class="col-md-6 form-group">
+          <label class="control-label" for="category_field">Categories</label>
+          <div id="category_field" class="checkbox">
+            <ul>
+            @for(child <- category.getChildren) {
+              @util.category_tree(child)
+            }
+            </ul>
+          </div>
+        </div>
+      </div>
 
       <div class="form-group  " id="">
         <button type="submit" class="btn btn-default">Next step</button>
